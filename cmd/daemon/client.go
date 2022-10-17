@@ -6,7 +6,7 @@ import (
 	"github.com/miekg/dns"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/natesales/doqd/pkg/client"
+	"github.com/mosajjal/doqd/pkg/client"
 )
 
 type ClientCommand struct {

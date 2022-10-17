@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/natesales/doqd/pkg/server"
+	"github.com/mosajjal/doqd/pkg/server"
 	log "github.com/sirupsen/logrus"
 )
 

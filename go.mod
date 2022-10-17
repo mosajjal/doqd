@@ -1,4 +1,4 @@
-module github.com/natesales/doqd
+module github.com/mosajjal/doqd
 
 go 1.19
 

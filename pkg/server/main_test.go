@@ -7,7 +7,7 @@ import (
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/natesales/doqd/pkg/client"
+	"github.com/mosajjal/doqd/pkg/client"
 )
 
 func TestServer(t *testing.T) {
