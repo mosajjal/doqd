@@ -9,12 +9,12 @@ import (
 	"github.com/miekg/dns"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/natesales/doqd"
+	doq "github.com/natesales/doqd"
 )
 
 // Client stores a DoQ client
 type Client struct {
-	Session quic.Session
+	Session quic.Connection
 }
 
 // New constructs a new client

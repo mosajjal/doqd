@@ -12,7 +12,7 @@ import (
 	"github.com/miekg/dns"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/natesales/doqd"
+	doq "github.com/natesales/doqd"
 )
 
 // Server stores a DoQ server
@@ -59,7 +59,7 @@ func (s *Server) Listen() {
 }
 
 // handleDoQSession handles a new DoQ session
-func handleDoQSession(session quic.Session, upstream string) {
+func handleDoQSession(session quic.Connection, upstream string) {
 	for {
 		// Accept client-originated QUIC stream
 		stream, err := session.AcceptStream(context.Background())
