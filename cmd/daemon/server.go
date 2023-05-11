@@ -46,7 +46,13 @@ func (s *ServerCommand) Execute(args []string) error {
 	log.Debugf("Listening on %+v", s.Listen)
 	for _, listenAddr := range s.Listen {
 		// Create the QUIC listener
-		doqServer, err := server.New(listenAddr, cert, s.Upstream, options.Compat)
+		conf := server.Config{
+			ListenAddr: listenAddr,
+			Upstream:   s.Upstream,
+			Cert:       cert,
+			TLSCompat:  options.Compat,
+		}
+		doqServer, err := server.New(conf)
 		if err != nil {
 			return nil
 		}

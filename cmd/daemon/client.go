@@ -56,7 +56,13 @@ func (c *ClientCommand) Execute(args []string) error {
 
 		// Create a new DoQ client
 		log.Debugf("opening QUIC connection to %s\n", c.Upstream)
-		doqClient, err := client.New(c.Upstream, options.Insecure, options.Compat)
+		conf := client.Config{
+			Server:        c.Upstream,
+			TLSSkipVerify: true,
+			Compat:        true,
+			Debug:         false,
+		}
+		doqClient, err := client.New(conf)
 		if err != nil {
 			log.Warn(err)
 		}
