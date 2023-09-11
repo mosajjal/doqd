@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net"
 	"time"
 
@@ -50,7 +50,7 @@ func New(c Config) (*Server, error) {
 		return nil, errors.New("could not start QUIC listener: " + err.Error())
 	}
 
-	return &Server{Listener: listener, Upstream: c.Upstream}, nil // nil error
+	return &Server{Listener: *listener, Upstream: c.Upstream}, nil // nil error
 }
 
 // Listen starts accepting QUIC connections
@@ -91,7 +91,7 @@ func (s *Server) handleDoQSession(session quic.Connection, upstream string) {
 			// The client MUST send the DNS query over the selected stream, and MUST
 			// indicate through the STREAM FIN mechanism that no further data will
 			// be sent on that stream.
-			bytes, err := ioutil.ReadAll(stream) // Ignore error, error handling is done by packet length
+			bytes, err := io.ReadAll(stream) // Ignore error, error handling is done by packet length
 
 			// Check for packet to small
 			if len(bytes) < 17 { // MinDnsPacketSize
