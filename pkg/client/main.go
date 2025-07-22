@@ -1,9 +1,10 @@
 package client
 
 import (
+	"context"
 	"crypto/tls"
 	"errors"
-	"io/ioutil"
+	"io"
 
 	"log"
 
@@ -15,7 +16,7 @@ import (
 
 // Client stores a DoQ client
 type Client struct {
-	Session quic.Connection
+	Session *quic.Conn
 	Debug   bool
 }
 
@@ -40,7 +41,7 @@ func New(c Config) (Client, error) {
 	if c.Debug {
 		log.Println("dialing quic server")
 	}
-	session, err := quic.DialAddr(c.Server, &tls.Config{
+	session, err := quic.DialAddr(context.Background(), c.Server, &tls.Config{
 		InsecureSkipVerify: c.TLSSkipVerify,
 		NextProtos:         tlsProtos,
 	}, nil)
@@ -48,7 +49,7 @@ func New(c Config) (Client, error) {
 		log.Fatalf("failed to connect to the server: %v\n", err)
 	}
 
-	return Client{session, c.Debug}, nil // nil error
+	return Client{Session: session, Debug: c.Debug}, nil // nil error
 }
 
 // Close closes a Client QUIC connection
@@ -94,7 +95,7 @@ func (c Client) SendQuery(message dns.Msg) (dns.Msg, error) {
 	if c.Debug {
 		log.Println("reading server response")
 	}
-	response, err := ioutil.ReadAll(stream)
+	response, err := io.ReadAll(stream)
 	if err != nil {
 		return dns.Msg{}, errors.New("quic stream read: " + err.Error())
 	}

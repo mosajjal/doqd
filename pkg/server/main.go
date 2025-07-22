@@ -71,7 +71,7 @@ func (s *Server) Listen() {
 }
 
 // handleDoQSession handles a new DoQ session
-func (s *Server) handleDoQSession(session quic.Connection, upstream string) {
+func (s *Server) handleDoQSession(session *quic.Conn, upstream string) {
 	for {
 		// Accept client-originated QUIC stream
 		stream, err := session.AcceptStream(context.Background())
